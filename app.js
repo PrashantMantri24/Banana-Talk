@@ -11,9 +11,34 @@ var outputDiv = document.querySelector("#output")
 
 // console.log(txtInput);
 
+//var serverURL = "https://lessonfourapi.tanaypratap.repl.co/translate/yoda.json"
+
+var serverURL = "https://api.funtranslations.com/translate/minion.json"
+
+function getTranslationURL(input){
+    return serverURL + "?" + "text=" + input
+}
+
+function errorHandler(){
+
+    console.log("error occuored", error);
+    alert("someting wrong with server! try again after some time")
+}
 
 function clickHandler() {
-    outputDiv.innerText = "fffhhhhjhj" + txtInput.value 
+    
+    var inputText = txtInput.value;     //Taking Input
+
+
+    //Calling server for Proccessing
+    fetch(getTranslationURL(inputText))
+    .then(Response => Response.json())
+    .then(json => {
+        var translatedText = json.contents.translated; 
+        outputDiv.innerText = translatedText;    //Output Text
+})        
+    .catch(errorHandler)
+
 }
 
 btnTranslate.addEventListener("click", clickHandler);
@@ -28,3 +53,5 @@ btnTranslate.addEventListener("click", clickHandler);
 // }
 
 // btnTranslate.addEventListener("click", clickHandler);
+
+
